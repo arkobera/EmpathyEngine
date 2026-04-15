@@ -172,10 +172,139 @@ python main.py
 
 ---
 
-### 🔹 Web Interface
+### 🔹 Web Interface (Streamlit)
 
 ```bash
 streamlit run streamlit_app/app.py
+```
+
+---
+
+### 🔹 Flask REST API
+
+#### Start the Flask API Server
+
+```bash
+uv run flask run --app flask_app/app.py --port 5001
+```
+
+The Flask API will be available at `http://localhost:5001`
+
+#### API Endpoints
+
+**1. Health Check**
+```bash
+curl http://localhost:5001/api/health
+```
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "timestamp": "2026-04-16T10:30:45.123456"
+}
+```
+
+---
+
+**2. Synthesize Speech (Generate Audio + Detect Emotion)**
+```bash
+curl -X POST http://localhost:5001/api/synthesize \
+  -H "Content-Type: application/json" \
+  -d '{"text": "I am so happy today!"}'
+```
+
+**Request Body:**
+```json
+{
+  "text": "Your text here",
+  "return_audio": true
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "emotion": "positive",
+  "provider": "google",
+  "audio": "base64_encoded_audio_string",
+  "timestamp": "2026-04-16T10:30:45.123456"
+}
+```
+
+---
+
+**3. Emotion Detection Only (No Audio Generation)**
+```bash
+curl -X POST http://localhost:5001/api/emotion \
+  -H "Content-Type: application/json" \
+  -d '{"text": "I am so disappointed"}'
+```
+
+**Request Body:**
+```json
+{
+  "text": "Your text here"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "emotion": "negative",
+  "text": "I am so disappointed",
+  "timestamp": "2026-04-16T10:30:45.123456"
+}
+```
+
+---
+
+**4. Get API Documentation**
+```bash
+curl http://localhost:5001/api/docs
+```
+
+---
+
+### 🔹 Streamlit + Flask Integration
+
+#### Start Both Services Together
+
+**Terminal 1 - Start Flask API:**
+```bash
+uv run flask run --app flask_app/app.py --port 5001
+```
+
+**Terminal 2 - Start Streamlit Frontend:**
+```bash
+uv run streamlit run streamlit_integrated_app.py
+```
+
+The Streamlit app will automatically connect to the Flask API at `http://localhost:5001`
+
+#### Features of Integrated Setup
+
+* **Separated Concerns**: API backend (Flask) and UI frontend (Streamlit)
+* **Scalability**: Flask API can be deployed independently
+* **Real-time Audio Playback**: Embedded audio player to listen to generated speech
+* **Emotion Detection**: Visual feedback showing detected emotion with emojis
+* **Download Option**: Download generated audio files directly
+* **Health Status**: Streamlit shows Flask API connection status
+
+#### Configuration
+
+In `streamlit_integrated_app.py`, the API URL can be customized:
+
+```python
+API_BASE_URL = os.getenv("EMPATHY_API_URL", "http://localhost:5001")
+```
+
+Or set via environment variable:
+```bash
+export EMPATHY_API_URL=http://localhost:5001
+uv run streamlit run streamlit_integrated_app.py
 ```
 
 ---
@@ -357,12 +486,14 @@ Text → Emotion → Parameter Mapping → SSML → Expressive Speech
 
 ## 📌 Tech Stack
 
-* **Python**
-* **Transformers (Hugging Face)**
-* **Google Cloud TTS**
-* **ElevenLabs API**
-* **gTTS**
-* **Streamlit**
+* **Python 3.10+**
+* **Transformers (Hugging Face)** - Emotion Detection
+* **Google Cloud TTS** - Primary Speech Synthesis
+* **ElevenLabs API** - Secondary Speech Synthesis
+* **gTTS** - Fallback Speech Synthesis
+* **Flask** - REST API Backend
+* **Streamlit** - Interactive Web UI
+* **UV** - Python Package Manager
 
 ---
 
