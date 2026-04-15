@@ -52,6 +52,14 @@ Unlike traditional TTS systems that sound robotic, this system dynamically adjus
 
 ---
 
+## 📸 Application Interface
+
+![Empathy Engine UI](tests/app.png)
+
+*The Streamlit interface showing real-time emotion detection and audio generation with audio playback and download capabilities.*
+
+---
+
 ## 🏗️ System Architecture
 
 ```
@@ -274,12 +282,12 @@ curl http://localhost:5001/api/docs
 
 **Terminal 1 - Start Flask API:**
 ```bash
-uv run flask run --app flask_app/app.py --port 5001
+flask --app flask_app/app.py run --port 5001
 ```
 
 **Terminal 2 - Start Streamlit Frontend:**
 ```bash
-uv run streamlit run streamlit_integrated_app.py
+streamlit run streamlit_integrated_app.py
 ```
 
 The Streamlit app will automatically connect to the Flask API at `http://localhost:5001`
