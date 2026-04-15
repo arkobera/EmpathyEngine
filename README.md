@@ -129,7 +129,7 @@ cd EmpathyEngine
 
 ```bash
 uv venv
-source .venv/bin/activate
+source .venv/bin/activate (ubuntu)
 ```
 
 ---
