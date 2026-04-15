@@ -193,7 +193,7 @@ streamlit run streamlit_app/app.py
 #### Start the Flask API Server
 
 ```bash
-uv run flask run --app flask_app/app.py --port 5001
+flask --app flask_app/app.py run --port 5001
 ```
 
 The Flask API will be available at `http://localhost:5001`
