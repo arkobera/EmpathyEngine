@@ -17,6 +17,7 @@ class VoiceMapper:
 
             # Apply intensity
             params["style"] = min(1.0, params["style"] + boost)
-            params["speed"] += boost
+            params["pitch"] = str(float(params.get("pitch", "0st").replace("st", "")) + boost) + "st"
+            params["rate"] = str(float(params.get("rate", "1.0")) + boost)
 
         return params

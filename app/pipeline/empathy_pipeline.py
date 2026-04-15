@@ -16,6 +16,6 @@ class EmpathyPipeline:
     def run(self, text):
         emotion = self.detector.predict(text)
         voice_params = self.voice_mapper.map(emotion, text)
-        audio_path = self.tts.generate(text, voice_params)
-        return emotion, audio_path
+        audio_path, provider = self.tts.generate(text, voice_params)
+        return emotion, audio_path, provider
     

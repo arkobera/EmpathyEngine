@@ -14,7 +14,7 @@ st.set_page_config(page_title="Empathy Engine", layout="centered")
 st.title("🎙️ Empathy Engine")
 st.write("Give AI a human voice with emotional intelligence")
 
-# ✅ Cache pipeline (VERY IMPORTANT)
+# ✅ Cache pipeline
 @st.cache_resource
 def load_pipeline():
     return EmpathyPipeline("configs/config.yaml")
@@ -32,25 +32,36 @@ if st.button("Generate Voice"):
     else:
         with st.spinner("Analyzing emotion and generating voice..."):
             try:
-                emotion, audio_path = pipeline.run(text_input)
+                # 🔥 UPDATED RETURN
+                emotion, audio_path, provider = pipeline.run(text_input)
 
-                # 🎯 Output
+                # 🎯 Emotion Output
                 st.success(f"Detected Emotion: **{emotion}**")
+
+                # 🧠 Provider Info (NEW)
+                st.info(f"🔊 Generated using: **{provider}**")
 
                 # 🔊 Play audio
                 with open(audio_path, "rb") as audio_file:
                     st.audio(audio_file.read(), format="audio/mp3")
 
-                # 📂 Optional: download button
+                # 📂 Download button
                 with open(audio_path, "rb") as f:
                     st.download_button(
                         label="Download Audio",
-                        data=f,
+                        data=f.read(),
                         file_name=os.path.basename(audio_path),
                         mime="audio/mp3"
                     )
 
-                st.info("ℹ️ If ElevenLabs fails, system automatically falls back to gTTS")
+                # 🧠 Smart message based on provider
+                if provider == "Google TTS":
+                    st.success("✨ High-quality SSML-based expressive voice")
+                elif provider == "ElevenLabs":
+                    st.warning("⚠️ Using ElevenLabs (may be rate-limited)")
+                else:
+                    st.info("ElevenLabs API - Rate Limit")
+                    st.info("ℹ️ Fallback mode (gTTS - basic voice)")
 
             except Exception as e:
                 st.error("❌ Something went wrong during processing")

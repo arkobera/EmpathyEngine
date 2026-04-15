@@ -5,31 +5,42 @@ emotion:
   model_name: "j-hartmann/emotion-english-distilroberta-base"
 
 tts:
-  provider: "elevenlabs"
-  fallback: "gtts"
+  provider: "google"          # primary
+  fallback_order:
+    - "google"
+    - "elevenlabs"
+    - "gtts"
+
+  # Google TTS
+  language: "en-US"
+  voice_name: "en-US-Neural2-F"
+
+  # ElevenLabs
   voice_id: "hpp4J3VqNfWAUOO0d1Us"
-  language: "en" 
-
-voice_mapping:
-  positive:
-    stability: 0.3
-    similarity_boost: 0.8
-    style: 0.7
-    speed: 1.1
-
-  negative:
-    stability: 0.7
-    similarity_boost: 0.6
-    style: 0.2
-    speed: 0.9
-
-  neutral:
-    stability: 0.5
-    similarity_boost: 0.75
-    style: 0.5
-    speed: 1.0
 
 intensity:
   enable: true
-  exclamation_boost: 0.1
-  caps_boost: 0.1
+  exclamation_boost: 0.2
+  caps_boost: 0.2
+
+voice_mapping:
+  positive:
+    pitch: "+4st"
+    rate: "1.1"
+    style: 0.7
+    stability: 0.3
+    similarity_boost: 0.8
+
+  negative:
+    pitch: "-3st"
+    rate: "0.9"
+    style: 0.2
+    stability: 0.7
+    similarity_boost: 0.6
+
+  neutral:
+    pitch: "0st"
+    rate: "1.0"
+    style: 0.5
+    stability: 0.5
+    similarity_boost: 0.75

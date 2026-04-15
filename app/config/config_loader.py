@@ -49,9 +49,12 @@ def validate_config(config: dict):
     if "output_dir" not in config["app"]:
         raise ValueError("Missing 'output_dir' in app config")
 
-    # Check TTS provider
-    if config["tts"].get("provider") != "elevenlabs":
-        raise ValueError("Currently only 'elevenlabs' provider is supported")
+    provider = config["tts"].get("provider")
+    supported_providers = ["google", "elevenlabs", "gtts"]
+    if provider not in supported_providers:
+        raise ValueError(
+            f"Unsupported TTS provider: {provider}. Supported: {supported_providers}"
+            )
 
     # Check voice mapping
     if "neutral" not in config["voice_mapping"]:
