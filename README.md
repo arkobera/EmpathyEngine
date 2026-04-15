@@ -210,15 +210,6 @@ streamlit run streamlit_app/app.py
 
 ---
 
-## ⚠️ Limitations
-
-* Emotion classification is limited to predefined categories
-* ElevenLabs free tier may rate-limit requests
-* Google TTS requires billing setup (free tier available)
----
-
-Add this section right after **🧠 Design Decisions** in your README:
-
 ---
 
 ## 🧩 Emotion → Voice Mapping Logic
@@ -312,6 +303,14 @@ Since different TTS providers support different controls:
 👉 The system normalizes parameters internally and adapts them per provider.
 
 ---
+
+## ⚠️ Limitations
+
+* Emotion classification is limited to predefined categories
+* ElevenLabs free tier may rate-limit requests
+* Google TTS requires billing setup (free tier available)
+---
+
 
 ### 🧠 6. Design Philosophy
 
